@@ -1,15 +1,31 @@
 <template>
-  <div class="hello"></div>
-  <p>你好</p>
+  <div>
+    <h1>{{ title }}</h1>
+    <ul>
+      <li v-for="item in items" :key="item.id">{{ item.name }}</li>
+    </ul>
+  </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "HelloWorld",
-  props: {
-    msg: String,
+  data() {
+    return {
+      title: "My List",
+      items: [],
+    };
+  },
+  mounted() {
+    axios
+      .get("http://jsonplaceholder.typicode.com/posts/2")
+      .then((response) => {
+        this.items = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>
-
-<style scoped></style>
